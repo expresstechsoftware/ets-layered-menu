@@ -55,6 +55,7 @@
 }
 .mobile-sidebar .nav-sidebar li.menu-item span.ets-imaged-title-menu{
 	display: inline-block;
+	/*font-size: 0.9em;*/
 }
 .mobile-sidebar .nav-sidebar li.menu-item .children-sub-menu-over{
 	background-color: #f2f2f2;
@@ -74,6 +75,10 @@
 	padding:15px 15px 15px 20px;
 	color:rgba(102,102,102,0.85);
 	font-family: "Montserrat", sans-serif;
+}
+.mobile-sidebar .nav-sidebar.nav-vertical li.menu-item .children-sub-menu-over li a{
+	font-size: 0.8em;
+	font-weight: bolder;
 }
 .mobile-sidebar .nav-sidebar li.menu-item a .menu-image.ets-imaged-title-menu-img{
 	margin-left: auto;

@@ -87,8 +87,12 @@ class ETS_LAYERED_MENU {
 				jQuery("#main-menu ul.sub-menu").prepend("<li class='submenu-back'><button class='submenu-backbtn'>Back</button></li>");
 
 				jQuery(document).on("click", ".menu-item.menu-item-has-children a", function(e){
-					e.preventDefault();
-					jQuery(this).siblings(".children-sub-menu-over").addClass("show");
+					let subMenuUl = jQuery(this).siblings(".children-sub-menu-over");
+					if ( subMenuUl.length > 0 ) {
+						e.preventDefault();
+						jQuery(this).siblings(".children-sub-menu-over").addClass("show");
+					}
+					return true;
 				});	
 
 				jQuery(document).on("click", ".submenu-back", function(e){
@@ -201,7 +205,7 @@ class ETS_LAYERED_MENU {
 		// Process only if there is an menu image associated with the menu item.
 		if ( '' !== $item->thumbnail_id && $item->thumbnail_id > 0 ) {
 			$class = 'ets-imaged-title-menu-img';
-			$image = wp_get_attachment_image( $item->thumbnail_id, [45, 45], false, "class=menu-image {$class}" );
+			$image = wp_get_attachment_image( $item->thumbnail_id, [50, 50], false, "class=menu-image {$class}" );
 			$class = 'ets-imaged-title-menu';
 			$none = '';
 			$title = vsprintf( '%s<span class="%s">%s</span>%s', [$none, $class, $title, $image] );
