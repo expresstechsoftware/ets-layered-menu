@@ -30,15 +30,18 @@ class ETS_LAYERED_MENU {
 	public static function register(){
 		$plugin = self::get_instance();
 
+		// Frontend
 		add_filter( 'nav_menu_submenu_css_class', array($plugin, 'child_menu_ul_classes'), 10, 3);
 		add_action( 'wp_enqueue_scripts', array($plugin, 'scripts') );
 		add_filter( 'wp_footer', array($plugin, 'menujs'));
-		add_action( 'admin_head-nav-menus.php', array($plugin, 'menu_image_admin_head_nav_menus_action') );
-		add_filter( 'wp_ajax_ets-set-menu-item-thumbnail', array($plugin, 'ajax_set_menu_item_thumbnail'));
-		add_action( 'wp_nav_menu_item_custom_fields', array($plugin, 'menu_item_custom_fields'), 10, 4 );
 		add_filter( 'wp_setup_nav_menu_item', array($plugin, 'menu_image_wp_setup_nav_menu_item') );
 		add_filter( 'nav_menu_item_title', array($plugin, 'menu_image_nav_menu_item_title_filter'), 10, 4 );
 		add_filter( 'the_title', array($plugin, 'menu_image_nav_menu_item_title_filter'), 10, 4 );
+
+		// Admin
+		add_action( 'admin_head-nav-menus.php', array($plugin, 'menu_image_admin_head_nav_menus_action') );
+		add_filter( 'wp_ajax_ets-set-menu-item-thumbnail', array($plugin, 'ajax_set_menu_item_thumbnail'));
+		add_action( 'wp_nav_menu_item_custom_fields', array($plugin, 'menu_item_custom_fields'), 10, 4 );		
 	}
 
 	/**
