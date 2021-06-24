@@ -79,7 +79,7 @@ class ETS_LAYERED_MENU {
 	}	
 
 	public function scripts() {
-		wp_enqueue_style('ets-layered-menu', LM_PLUGIN_URL . '/assets/css/style.css', [], '1.0');
+		wp_enqueue_style('ets-layered-menu', LM_PLUGIN_URL . '/assets/css/style.css', [], '1.3');
 	}
 
 	public function menujs() {

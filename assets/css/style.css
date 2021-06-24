@@ -88,9 +88,17 @@
 	color:rgba(17,17,17,0.85);
 }
 
+.mobile-sidebar .nav-sidebar .nav-sidebar-ul.show .menu-item .menu-item a{
+	color:rgba(102,102,102,0.85) !important;
+}
+
 body .off-canvas-left .mfp-container .mfp-content{
 	background-color: #fff;
 }
 .mobile-sidebar .submenu-backbtn {
     margin-top: 1em;
+}
+
+.off-canvas .mfp-content .sidebar-menu {
+    padding: 0px;
 }
