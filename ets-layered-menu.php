@@ -20,11 +20,7 @@ class ETS_LAYERED_MENU {
 
 	private static $instance = null;
 
-	/**
-	 * Yes, a blank constructor, to implement singleton
-	 * to keep the real essence of WordPress project, 
-	 * so that someone can easily unhook any of our method
-	 */
+
 	private function __construct()
 	{
 		
@@ -146,8 +142,8 @@ class ETS_LAYERED_MENU {
 		wp_localize_script(
 			'ets-menu-image-admin', 'menuImage', array(
 				'l10n'     => array(
-					'uploaderTitle'      => __( 'Choose menu image', 'woocommerce' ),
-					'uploaderButtonText' => __( 'Select', 'woocommerce' ),
+					'uploaderTitle'      => __( 'Choose menu image', 'ets_layered_menu' ),
+					'uploaderButtonText' => __( 'Select', 'ets_layered_menu' ),
 				),
 				'settings' => array(
 					'nonce' => wp_create_nonce( 'update-menu-item' ),
@@ -204,13 +200,13 @@ class ETS_LAYERED_MENU {
 		$thumbnail_id = get_post_thumbnail_id( $item_id );
 		$content      = sprintf(
 			$markup,
-			esc_html__( 'Menu image', 'menu-image' ),
-			$thumbnail_id ? esc_attr__( 'Change menu item image', 'menu-image' ) : esc_attr__( 'Set menu item image', 'menu-image' ),
+			esc_html__( 'Menu image', 'ets_layered_menu' ),
+			$thumbnail_id ? esc_attr__( 'Change menu item image', 'ets_layered_menu' ) : esc_attr__( 'Set menu item image', 'menu-image' ),
 			'',
 			$item_id,
-			$thumbnail_id ? wp_get_attachment_image( $thumbnail_id, [36, 36] ) : esc_html__( 'Set image', 'menu-image' ),
-			$thumbnail_id ? '<a href="#" class="remove-post-thumbnail">' . __( 'Remove', 'menu-image' ) . '</a>' : ''
-		);	
+			$thumbnail_id ? wp_get_attachment_image( $thumbnail_id, [36, 36] ) : esc_html__( 'Set image', 'ets_layered_menu' ),
+			$thumbnail_id ? '<a href="#" class="remove-post-thumbnail">' . __( 'Remove', 'ets_layered_menu' ) . '</a>' : ''
+		);
 
 		return $content;	
 	}
@@ -289,6 +285,7 @@ class ETS_LAYERED_MENU {
 
 		return $title;
 	}
-} // class closed
+
+} 
 
 ETS_LAYERED_MENU::register();
