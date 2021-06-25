@@ -20,7 +20,13 @@ class ETS_LAYERED_MENU {
 
 	private static $instance = null;
 
-
+	/**
+	 * Yes, a blank constructor, to implement singleton,
+	 * to keep the real essence of WordPress project, 
+	 * so that someone can easily unhook any of our method
+	 * 
+	 * @return void
+	 */
 	private function __construct()
 	{
 		
@@ -259,6 +265,8 @@ class ETS_LAYERED_MENU {
 	 * @param object $item menu item object (WP_Post)
 	 * @param int $depth depth of the menu item
 	 * @param object $args object of menu item arguments
+	 * 
+	 * @return string
 	 */
 	public function menu_image_nav_menu_item_title_filter( $title, $item = null, $depth = null, $args = null ) {
 
