@@ -5,6 +5,7 @@
  * Description: Layered menu for right to left sliding effect for sub menus on mobile devicies
  * Version: 1.0.0
  * Author: ExpressTech Softwares Solutions
+ * Requires at least: 5.4
  * Text Domain: ets_layered_menu
  */
  
@@ -19,6 +20,11 @@ class ETS_LAYERED_MENU {
 
 	private static $instance = null;
 
+	/**
+	 * Yes, a blank constructor, to implement singleton
+	 * to keep the real essence of WordPress project, 
+	 * so that someone can easily unhook any of our method
+	 */
 	private function __construct()
 	{
 		
@@ -26,6 +32,8 @@ class ETS_LAYERED_MENU {
 
 	/**
 	 * Register the WP hooks
+	 * 
+	 * @return void
 	 */
 	public static function register(){
 		$plugin = self::get_instance();
@@ -48,6 +56,8 @@ class ETS_LAYERED_MENU {
 	 * Singleton pattern
 	 * Method explicity for creating the object
 	 * of this class
+	 * 
+	 * @return object, an object of this class
 	 */
 	public static function get_instance()
 	{
@@ -59,13 +69,16 @@ class ETS_LAYERED_MENU {
 		return self::$instance;
 	}
 
+	/**
+	 * Adds classes to child menus
+	 * 
+	 * @param array $classes CSS classes applied to the menu <ul> element
+	 * @param object $args an object of wp_nav_menu()
+	 * @param int $depth depth of menu item
+	 * 
+	 * @return array
+	 */
 	public function child_menu_ul_classes($classes, $args, $depth) {
-
-		// echo '<pre>';
-		// echo $depth;
-		// print_r($classes);
-		// echo '</pre>';
-
 		if ( array_search('sub-menu', $classes) !== false ) {
 			if ( ($key = array_search('children', $classes)) !== false ) {
 				unset($classes[$key]);
@@ -78,10 +91,25 @@ class ETS_LAYERED_MENU {
 		return $classes;
 	}	
 
+	/**
+	 * Enqueue scripts
+	 * 
+	 * @return void
+	 */
 	public function scripts() {
-		wp_enqueue_style('ets-layered-menu', LM_PLUGIN_URL . '/assets/css/style.css', [], '1.3');
+		wp_enqueue_style(
+			'ets-layered-menu',
+			LM_PLUGIN_URL . '/assets/css/style.css',
+			[],
+			'1.3'
+		);
 	}
 
+	/**
+	 * JS to swap sub-menu on frontend
+	 * 
+	 * @return void
+	 */
 	public function menujs() {
 	?>
 		<script type="text/javascript">
@@ -107,6 +135,12 @@ class ETS_LAYERED_MENU {
 	<?php
 	}
 
+	/**
+	 * Loads media JS and string literals for admin
+	 * menu editor
+	 * 
+	 * @return void
+	 */
 	public function menu_image_admin_head_nav_menus_action() {
 		wp_enqueue_script( 'ets-menu-image-admin', LM_PLUGIN_URL . '/assets/js/admin-menu-image.js' , array( 'jquery' ), '2.9.6' );
 		wp_localize_script(
@@ -124,7 +158,12 @@ class ETS_LAYERED_MENU {
 		wp_enqueue_style( 'editor-buttons' );
 	}
 
-
+	/**
+	 * Handles the AJAX request from admin
+	 * menu editor to save menu item image
+	 * 
+	 * @return void
+	 */
 	public function ajax_set_menu_item_thumbnail() {
 		$json = ! empty( $_REQUEST['json'] );
 
@@ -152,6 +191,13 @@ class ETS_LAYERED_MENU {
 		wp_die( 0 );
 	}
 
+	/**
+	 * Generated the HTML for thumbnail on menu editor
+	 * 
+	 * @param int $item_id menu item ID
+	 * 
+	 * @return string
+	 */
 	protected function wp_post_thumbnail_only_html( $item_id ) {
 		$markup = '<p class="description description-thin" ><label>%s<br /><a title="%s" href="#" class="set-post-thumbnail button%s" data-item-id="%s" style="height: auto;">%s</a>%s</label></p>';
 
@@ -169,6 +215,17 @@ class ETS_LAYERED_MENU {
 		return $content;	
 	}
 
+	/**
+	 * Generates the custom option to upload
+	 * the menu image in the WP menu edior
+	 * 
+	 * @param int $item_id menu item ID
+	 * @param object $item menu item object (WP_Post)
+	 * @param int $depth depth of menu item
+	 * @param object $args an object of menu item arguments
+	 * 
+	 * @return void
+	 */
 	public function menu_item_custom_fields( $item_id, $item, $depth, $args ) {
 		if ( ! $item_id && isset( $item->ID ) ) {
 			$item_id = $item->ID;
@@ -183,6 +240,13 @@ class ETS_LAYERED_MENU {
 	<?php
 	}
 
+	/**
+	 * For frontend, sets the thumbnail ID in the menu item
+	 * 
+	 * @param object $item menu item
+	 * 
+	 * @return object
+	 */
 	public function menu_image_wp_setup_nav_menu_item( $item ) {
 		if ( ! isset( $item->thumbnail_id ) ) {
 			$item->thumbnail_id = get_post_thumbnail_id( $item->ID );
@@ -191,6 +255,15 @@ class ETS_LAYERED_MENU {
 		return $item;
 	}	
 
+	/**
+	 * Adds the menu item image to the frontend menu
+	 * also adds the necessary HTML structure
+	 * 
+	 * @param string $title title of menu item
+	 * @param object $item menu item object (WP_Post)
+	 * @param int $depth depth of the menu item
+	 * @param object $args object of menu item arguments
+	 */
 	public function menu_image_nav_menu_item_title_filter( $title, $item = null, $depth = null, $args = null ) {
 
 		if ( strpos( $title, 'menu-image' ) > 0 || ! is_nav_menu_item( $item ) || ! isset( $item ) ) {
